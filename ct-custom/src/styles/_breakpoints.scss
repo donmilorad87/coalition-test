@@ -1,0 +1,16 @@
+// Navigation collapses to the hamburger below $bp-nav.
+$bp-nav: 992px;
+
+@mixin nav-mobile {
+
+	@media (max-width: #{$bp-nav - 0.02px}) {
+		@content;
+	}
+}
+
+@mixin nav-desktop {
+
+	@media (min-width: $bp-nav) {
+		@content;
+	}
+}

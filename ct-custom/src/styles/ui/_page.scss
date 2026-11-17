@@ -1,0 +1,52 @@
+
+.page-main {
+	padding-block: 44px 64px;
+}
+
+.page-header {
+	margin-bottom: 4px;
+}
+
+.page-title {
+	margin: 32px 0 0;
+	line-height: 1.2;
+	letter-spacing: -0.05em; // Matches the PSD's tighter Ubuntu Bold.
+}
+
+.entry-content {
+
+	> * {
+		margin-block: 0;
+	}
+
+	> * + * {
+		margin-top: 52px;
+	}
+}
+
+// Paragraph block style "Intro (muted)".
+.is-style-ct-intro {
+	max-width: 860px;
+	color: var(--ct-color-muted);
+	letter-spacing: 0.01em;
+	padding-left: 2px;
+}
+
+// Heading block style "Section title (bar)": CONTACT US / REACH US.
+.wp-block-heading.is-style-ct-section {
+	margin: 0 0 19px;
+	padding: 0 0 7px 1px;
+	border-bottom: var(--ct-border-width) solid var(--ct-border-color);
+	font-size: var(--ct-h2-size);
+	font-weight: 400;
+	line-height: 1.2;
+	text-transform: uppercase;
+	color: var(--ct-color-heading);
+}
+
+// Two-column contact section from the "Contact section" pattern.
+.wp-block-columns.ct-contact-columns {
+	column-gap: 8.02%;
+	row-gap: 48px;
+	margin-bottom: 0;
+}

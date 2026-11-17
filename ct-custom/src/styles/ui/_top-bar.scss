@@ -1,0 +1,52 @@
+.top-bar {
+	color: var(--ct-topbar-label-color);
+	background: var(--ct-topbar-bg);
+	font-family: var(--ct-font-display);
+	font-size: var(--ct-topbar-font-size);
+	line-height: 1;
+
+	&__inner {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 16px;
+		min-height: var(--ct-topbar-height);
+		padding-top: 2px;
+	}
+
+	&__call {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: baseline;
+		gap: 0 10px;
+		margin: 0;
+	}
+
+	&__label {
+		color: var(--ct-topbar-label-color);
+	}
+
+	a {
+		text-decoration: none;
+	}
+
+	&__phone,
+	&__highlight {
+		color: var(--ct-topbar-text-color);
+	}
+
+	// Bebas Neue digits are wider than the PSD's Bebas.
+	&__phone {
+		letter-spacing: -0.04em;
+	}
+
+	a:hover {
+		text-decoration: underline;
+		text-decoration-thickness: 1px;
+	}
+
+	&__account {
+		display: flex;
+		gap: 12px;
+	}
+}

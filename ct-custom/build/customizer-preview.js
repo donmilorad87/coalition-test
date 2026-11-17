@@ -1,0 +1,1 @@
+(()=>{const e=document.documentElement;Object.entries(window.ctCustomizerVars||{}).forEach(([t,{cssVar:s,unit:n,values:o}])=>{window.wp.customize(t,t=>{t.bind(t=>e.style.setProperty(s,o?o[t]??"":`${t}${n}`))})})})();

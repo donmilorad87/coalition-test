@@ -1,0 +1,56 @@
+body {
+	font-family: var(--ct-font-body);
+	font-size: var(--ct-font-size-base);
+	line-height: var(--ct-line-height-base);
+	color: var(--ct-color-text);
+	background: var(--ct-color-bg);
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+	margin: 0 0 0.5em;
+	color: var(--ct-color-heading);
+	line-height: 1.2;
+}
+
+h1 {
+	font-size: var(--ct-h1-size);
+	font-weight: 700;
+}
+
+h2 {
+	font-size: var(--ct-h2-size);
+	font-weight: 400;
+}
+
+h3 {
+	font-size: var(--ct-h3-size);
+	font-weight: 700;
+}
+
+h4 {
+	font-size: var(--ct-h4-size);
+	font-weight: 700;
+}
+
+p {
+	margin: 0 0 1em;
+}
+
+a {
+	color: var(--ct-color-link);
+	text-decoration-thickness: 1px;
+	text-underline-offset: 2px;
+	transition: color 0.15s ease;
+}
+
+b,
+strong {
+	font-weight: 700;
+}

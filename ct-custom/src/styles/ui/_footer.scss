@@ -1,0 +1,22 @@
+.site-footer {
+	color: var(--ct-footer-color);
+	background: var(--ct-footer-bg);
+	font-size: 13px;
+
+	&__inner {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		justify-content: space-between;
+		gap: 16px;
+		padding-block: 20px;
+	}
+
+	&__copy {
+		margin: 0;
+	}
+
+	.social-links {
+		--ct-social-size: 28px;
+	}
+}

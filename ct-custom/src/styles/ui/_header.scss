@@ -1,0 +1,38 @@
+@use "../breakpoints" as *;
+
+.site-header {
+	position: relative;
+	z-index: 50;
+	background: var(--ct-header-bg);
+
+	&__inner {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		min-height: var(--ct-header-height);
+		gap: 24px;
+	}
+}
+
+.site-logo {
+	display: block;
+	flex: none;
+	color: var(--ct-color-primary);
+	text-decoration: none;
+
+	@include nav-desktop {
+		margin-left: -6px; // The PSD logo hangs 6px left of the content edge.
+	}
+
+	&__img {
+		margin-top: 4px;
+		width: auto;
+		height: var(--ct-logo-height);
+	}
+
+	&__text {
+		font-family: var(--ct-font-display);
+		font-size: calc(var(--ct-logo-height) * 1.4);
+		line-height: 1;
+	}
+}

@@ -1,0 +1,26 @@
+{
+	"name": "coalition/ct-custom",
+	"description": "Dev tooling for the CT Custom theme.",
+	"type": "wordpress-theme",
+	"license": "GPL-2.0-or-later",
+	"require": {
+		"php": ">=8.2"
+	},
+	"require-dev": {
+		"phpunit/phpunit": "^9.6",
+		"yoast/phpunit-polyfills": "^4.0",
+		"wp-phpunit/wp-phpunit": "7.1.3",
+		"wp-coding-standards/wpcs": "^3.4",
+		"dealerdirect/phpcodesniffer-composer-installer": "^1.0",
+		"automattic/vipwpcs": "^3.1"
+	},
+	"config": {
+		"allow-plugins": {
+			"dealerdirect/phpcodesniffer-composer-installer": true
+		}
+	},
+	"scripts": {
+		"test": "phpunit",
+		"lint": "phpcs"
+	}
+}

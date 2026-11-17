@@ -1,0 +1,27 @@
+// Minimal styling for the Underscores blog templates
+// (index, single, archive, search).
+.content-area {
+	padding-block: 44px 64px;
+}
+
+.site-main > .container,
+.content-area .site-main {
+	max-width: calc(var(--ct-container-width) + 32px);
+	margin-inline: auto;
+	padding-inline: 16px;
+}
+
+.entry-title a {
+	color: inherit;
+	text-decoration: none;
+}
+
+.entry-meta,
+.entry-footer {
+	font-size: 13px;
+	color: var(--ct-color-muted);
+}
+
+.alignwide {
+	max-width: 1200px;
+}

@@ -1,0 +1,19 @@
+{
+	"name": "ct-custom",
+	"version": "1.0.0",
+	"description": "Coalition Technologies skill test theme.",
+	"private": true,
+	"license": "GPL-2.0-or-later",
+	"scripts": {
+		"build": "wp-scripts build --webpack-copy-php --experimental-modules --config src/webpack.config.js",
+		"start": "wp-scripts start --webpack-copy-php --experimental-modules --config src/webpack.config.js",
+		"lint:js": "wp-scripts lint-js src tests/e2e playwright.config.js",
+		"lint:css": "wp-scripts lint-style 'src/**/*.scss'",
+		"test:e2e": "playwright test",
+		"design-diff": "node tests/e2e/design-diff.mjs ../CT_SkillTest_v1.png tests/e2e/.results"
+	},
+	"devDependencies": {
+		"@playwright/test": "^1.65.1",
+		"@wordpress/scripts": "^37.1.0"
+	}
+}

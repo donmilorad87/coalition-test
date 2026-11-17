@@ -1,0 +1,262 @@
+@use "../breakpoints" as *;
+
+// Level 1 = .main-nav__menu > li, level 2 = .sub-menu,
+// level 3 = .sub-menu .sub-menu.
+// Space between the active underline and the first dropdown (design).
+$submenu-gap: 16px;
+// Ubuntu's tall ascent already adds space above the caps.
+$submenu-pad-top: 7px;
+$submenu-pad-bottom: 18px;
+$submenu-pad-x: 13px;
+
+.main-nav {
+	font-size: var(--ct-menu-font-size);
+	text-transform: uppercase;
+
+	a {
+		display: block;
+		color: inherit;
+		text-decoration: none;
+		white-space: nowrap;
+	}
+
+	// Current page and its ancestors are bold
+	// (design: TITLE 2 > SUBMENU 3 > SUBMENU 3).
+	.current-menu-item > a,
+	.current-menu-ancestor > a,
+	.current-menu-parent > a {
+		font-weight: 700;
+	}
+
+	&__burger,
+	&__toggle {
+		display: none;
+		align-items: center;
+		justify-content: center;
+		padding: 0;
+		color: var(--ct-menu-color);
+		background: none;
+		border: 0;
+		cursor: pointer;
+	}
+}
+
+.main-nav__menu {
+	color: var(--ct-menu-color);
+
+	> li > a {
+		position: relative;
+		padding-block: 3px 7px;
+
+		// Active underline grows from the center on hover,
+		// stays full on the current branch.
+		&::after {
+			content: "";
+			position: absolute;
+			inset: auto 0 0;
+			height: var(--ct-menu-border-width);
+			background: var(--ct-menu-active-border-color);
+			transform: scaleX(0);
+			transition: transform 0.2s ease;
+		}
+	}
+
+	> .current-menu-item > a::after,
+	> .current-menu-ancestor > a::after,
+	> .current-menu-parent > a::after,
+	> li > a:hover::after {
+		transform: scaleX(1);
+	}
+
+	a:hover {
+		color: var(--ct-menu-hover-color);
+	}
+
+	.sub-menu {
+		color: var(--ct-submenu-color);
+		background: var(--ct-submenu-bg);
+		border: 1px solid var(--ct-submenu-border-color);
+		font-size: var(--ct-submenu-font-size);
+		line-height: var(--ct-submenu-line-height);
+
+		a:hover {
+			color: var(--ct-submenu-hover-color);
+		}
+	}
+
+	.sub-menu .sub-menu {
+		color: var(--ct-subsubmenu-color);
+		background: var(--ct-subsubmenu-bg);
+		border-color: var(--ct-subsubmenu-border-color);
+		font-size: var(--ct-subsubmenu-font-size);
+
+		a:hover {
+			color: var(--ct-subsubmenu-hover-color);
+		}
+	}
+}
+
+@include nav-desktop {
+
+	.main-nav__menu {
+		display: flex;
+		margin-right: 32px;
+
+		> li {
+			position: relative;
+			padding-inline: calc(var(--ct-menu-item-gap) / 2);
+
+			&:last-child {
+				padding-right: 0;
+			}
+		}
+
+		.sub-menu {
+			position: absolute;
+			z-index: 10;
+			min-width: 100%;
+			padding: $submenu-pad-top $submenu-pad-x $submenu-pad-bottom;
+			visibility: hidden;
+			opacity: 0;
+			transition: opacity 0.15s ease, transform 0.15s ease, visibility 0s linear 0.15s;
+
+			li {
+				position: relative;
+			}
+		}
+
+		// Level 2: centered under its parent, below the underline.
+		> li > .sub-menu {
+			top: calc(100% + #{$submenu-gap});
+			left: 50%;
+			transform: translate(-50%, -4px);
+
+			// Invisible bridge across the gap so the pointer can travel to the dropdown.
+			&::before {
+				content: "";
+				position: absolute;
+				inset: -#{$submenu-gap + 1px} 0 100%;
+			}
+		}
+
+		// Level 3: flies out to the right, sharing the 1px border,
+		// first item aligned with its parent.
+		.sub-menu .sub-menu {
+			top: -($submenu-pad-top + 1px);
+			left: calc(100% + #{$submenu-pad-x});
+			transform: translateX(-4px);
+		}
+
+		li:hover > .sub-menu,
+		li:focus-within > .sub-menu {
+			visibility: visible;
+			opacity: 1;
+			transition-delay: 0s;
+		}
+
+		> li:hover > .sub-menu,
+		> li:focus-within > .sub-menu {
+			transform: translate(-50%, 0);
+		}
+
+		.sub-menu li:hover > .sub-menu,
+		.sub-menu li:focus-within > .sub-menu {
+			transform: none;
+		}
+
+		// Escape pressed: keep closed until the pointer/focus leaves
+		// (see navigation.js).
+		> li.is-dismissed .sub-menu {
+			visibility: hidden;
+			opacity: 0;
+		}
+	}
+}
+
+@include nav-mobile {
+
+	.main-nav__burger {
+		display: inline-flex;
+		width: 44px;
+		height: 44px;
+		font-size: 28px;
+
+		.ct-icon--close,
+		&[aria-expanded="true"] .ct-icon--menu {
+			display: none;
+		}
+
+		&[aria-expanded="true"] .ct-icon--close {
+			display: block;
+		}
+	}
+
+	.main-nav__menu {
+		position: absolute;
+		top: 100%;
+		left: 0;
+		right: 0;
+		display: none;
+		max-height: calc(100vh - 100%);
+		overflow-y: auto;
+		padding: 8px 16px 16px;
+		background: var(--ct-header-bg);
+		border-top: 1px solid var(--ct-submenu-border-color);
+		box-shadow: 0 12px 24px rgb(0 0 0 / 8%);
+
+		.main-nav.is-open & {
+			display: block;
+		}
+
+		li {
+			display: flex;
+			flex-wrap: wrap;
+			align-items: center;
+			border-bottom: 1px solid rgb(0 0 0 / 6%);
+		}
+
+		a {
+			flex: 1;
+			padding: 12px 0;
+			white-space: normal; // Long items wrap instead of scrolling sideways on narrow phones.
+		}
+
+		> li > a {
+			padding-block: 12px;
+
+			&::after {
+				inset: auto auto 6px 0;
+				width: 32px;
+			}
+		}
+
+		.sub-menu {
+			display: none;
+			flex-basis: 100%;
+			margin: 0 0 12px;
+			padding: 0 12px;
+			border-width: 0 0 0 var(--ct-menu-border-width);
+			border-color: var(--ct-menu-active-border-color);
+
+			li:last-child {
+				border-bottom: 0;
+			}
+		}
+
+		.is-expanded > .sub-menu {
+			display: block;
+		}
+	}
+
+	.main-nav__toggle {
+		display: inline-flex;
+		width: 44px;
+		height: 44px;
+		font-size: 20px;
+		transition: transform 0.2s ease;
+
+		&[aria-expanded="true"] {
+			transform: rotate(180deg);
+		}
+	}
+}

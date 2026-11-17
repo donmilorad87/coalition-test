@@ -1,0 +1,113 @@
+input[type="text"],
+input[type="email"],
+input[type="tel"],
+input[type="url"],
+input[type="password"],
+input[type="search"],
+input[type="number"],
+textarea,
+select {
+	width: 100%;
+	min-height: 32px;
+	padding: 6px 10px;
+	color: var(--ct-input-text-color);
+	background: var(--ct-input-bg);
+	border: 1px solid var(--ct-input-border-color);
+	border-radius: 0;
+	font-size: 14px;
+	line-height: 18px;
+	transition: border-color 0.15s ease, background-color 0.15s ease;
+
+	&::placeholder {
+		color: var(--ct-input-placeholder-color);
+		opacity: 1;
+	}
+
+	&:focus {
+		border-color: var(--ct-color-primary);
+		// Not `none`: forced-colors mode drops box-shadow but paints outlines.
+		outline: 2px solid transparent;
+		box-shadow: 0 0 0 1px var(--ct-color-primary);
+	}
+}
+
+textarea {
+	display: block;
+	height: 109px;
+	padding-top: 8px;
+	resize: vertical;
+}
+
+// Bare <button>s (menu toggles, copy/share) keep their own component styles.
+input[type="submit"],
+.wp-element-button,
+.wp-block-button__link {
+	display: inline-block;
+	min-height: 37px;
+	padding: 9px 24px;
+	color: var(--ct-button-color);
+	background: var(--ct-button-bg);
+	border: 0;
+	border-radius: 0;
+	font-size: 13px;
+	font-weight: 700;
+	line-height: 19px;
+	text-transform: uppercase;
+	cursor: pointer;
+	transition: background-color 0.15s ease;
+
+	&:hover,
+	&:focus-visible {
+		background: var(--ct-button-hover-bg);
+	}
+}
+
+// Contact Form 7 layout (form markup is seeded in Docker/php/setup/seed.php).
+.ct-form {
+
+	&__row {
+		margin: 0 0 10px;
+	}
+
+	&__row--split {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		gap: 10px;
+
+		p {
+			margin: 0;
+		}
+
+		@media (max-width: 480px) {
+			grid-template-columns: 1fr;
+		}
+	}
+
+	&__row--submit {
+		margin-top: 22px;
+	}
+
+	.wpcf7-form-control-wrap {
+		display: block;
+	}
+
+	.wpcf7-not-valid {
+		border-color: #d63638;
+	}
+
+	.wpcf7-not-valid-tip {
+		margin-top: 4px;
+		font-size: 12px;
+		color: #d63638;
+	}
+}
+
+.wpcf7 form .wpcf7-response-output {
+	margin: 16px 0 0;
+	padding: 8px 12px;
+	font-size: 13px;
+}
+
+.wpcf7-spinner {
+	vertical-align: middle;
+}

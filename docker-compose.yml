@@ -1,0 +1,94 @@
+# All credentials come from .env (see .env.example); `:?` makes compose fail fast when one is missing.
+name: ${COMPOSE_PROJECT_NAME:-coalitiontest}
+
+x-wp-env: &wp-env
+  WORDPRESS_DB_HOST: mysql:3306
+  WORDPRESS_DB_NAME: ${DB_NAME:?set DB_NAME in .env}
+  WORDPRESS_DB_USER: ${DB_USER:?set DB_USER in .env}
+  WORDPRESS_DB_PASSWORD: ${DB_PASSWORD:?set DB_PASSWORD in .env}
+  WORDPRESS_DEBUG: "1"
+  # Local dev: no theme.json/pattern caching, so edits in ./ct-custom show up immediately.
+  WORDPRESS_CONFIG_EXTRA: |
+    define( 'WP_DEVELOPMENT_MODE', 'theme' );
+    define( 'WP_DEBUG_LOG', true );
+    define( 'WP_DEBUG_DISPLAY', false );
+  # Read by the theme's PHPUnit config (tests/phpunit/wp-tests-config.php).
+  DB_TESTS_NAME: ${DB_TESTS_NAME:?set DB_TESTS_NAME in .env}
+
+services:
+  mysql:
+    build: ./Docker/mysql
+    environment:
+      MYSQL_DATABASE: ${DB_NAME:?set DB_NAME in .env}
+      MYSQL_USER: ${DB_USER:?set DB_USER in .env}
+      MYSQL_PASSWORD: ${DB_PASSWORD:?set DB_PASSWORD in .env}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:?set MYSQL_ROOT_PASSWORD in .env}
+    volumes:
+      - db_data:/var/lib/mysql
+    ports:
+      - "${BIND_IP_LOCAL:-127.0.0.6}:3306:3306"
+    healthcheck:
+      # $$ = read inside the container, so the password never lands in `docker inspect` of the check.
+      test: ["CMD-SHELL", "mysqladmin ping -h 127.0.0.1 -u\"$$MYSQL_USER\" -p\"$$MYSQL_PASSWORD\""]
+      interval: 5s
+      timeout: 5s
+      retries: 30
+
+  php:
+    build: ./Docker/php
+    environment: *wp-env
+    depends_on:
+      mysql:
+        condition: service_healthy
+    volumes:
+      - wp_data:/var/www/html
+      - ./ct-custom:/var/www/html/wp-content/themes/ct-custom
+
+  nginx:
+    build: ./Docker/nginx
+    depends_on:
+      - php
+    ports:
+      - "${BIND_IP_LOCAL:-127.0.0.6}:80:80"
+      # LAN access (e.g. a Windows machine whose hosts file maps coalitiontest.local to this IP).
+      - "${BIND_IP_LAN:?set BIND_IP_LAN in .env}:80:80"
+    volumes:
+      - wp_data:/var/www/html:ro
+      - ./ct-custom:/var/www/html/wp-content/themes/ct-custom:ro
+
+  # One-shot installer/seeder; safe to re-run: `docker compose run --rm setup`.
+  setup:
+    build: ./Docker/php
+    environment:
+      <<: *wp-env
+      WP_CLI_CACHE_DIR: /tmp/wp-cli-cache
+      WP_URL: ${WP_URL:?set WP_URL in .env}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:?set MYSQL_ROOT_PASSWORD in .env}
+      WP_ADMIN_USER: ${WP_ADMIN_USER:?set WP_ADMIN_USER in .env}
+      WP_ADMIN_PASSWORD: ${WP_ADMIN_PASSWORD:?set WP_ADMIN_PASSWORD in .env}
+      WP_ADMIN_EMAIL: ${WP_ADMIN_EMAIL:?set WP_ADMIN_EMAIL in .env}
+      # Optional SMTP seed for Theme Settings → Email.
+      MAIL_MAILER: ${MAIL_MAILER:-}
+      MAIL_HOST: ${MAIL_HOST:-}
+      MAIL_PORT: ${MAIL_PORT:-}
+      MAIL_ENCRYPTION: ${MAIL_ENCRYPTION:-}
+      MAIL_USERNAME: ${MAIL_USERNAME:-}
+      MAIL_PASSWORD: ${MAIL_PASSWORD:-}
+      MAIL_FROM_ADDRESS: ${MAIL_FROM_ADDRESS:-}
+      MAIL_FROM_NAME: ${MAIL_FROM_NAME:-}
+    depends_on:
+      mysql:
+        condition: service_healthy
+      php:
+        condition: service_started
+    volumes:
+      - wp_data:/var/www/html
+      - ./ct-custom:/var/www/html/wp-content/themes/ct-custom
+      - ./Docker/php/setup:/usr/local/share/ct-setup:ro
+    user: "33:33"
+    entrypoint: ["/usr/local/share/ct-setup/setup.sh"]
+    restart: "no"
+
+volumes:
+  db_data:
+  wp_data:

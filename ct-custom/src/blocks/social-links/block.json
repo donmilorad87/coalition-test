@@ -1,0 +1,46 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "ct-custom/social-links",
+	"title": "Social Links",
+	"category": "ct-custom",
+	"icon": "share",
+	"description": "Social icons added item by item (image, name, URL). With no items, the links from Appearance → Theme Settings are shown.",
+	"keywords": [
+		"social",
+		"facebook",
+		"twitter",
+		"linkedin",
+		"pinterest",
+		"share"
+	],
+	"textdomain": "ct-custom",
+	"attributes": {
+		"items": {
+			"type": "array",
+			"default": [],
+			"items": {
+				"type": "object"
+			}
+		},
+		"openInNewTab": {
+			"type": "boolean",
+			"default": true
+		},
+		"showShare": {
+			"type": "boolean",
+			"default": false
+		}
+	},
+	"supports": {
+		"html": false,
+		"interactivity": true,
+		"spacing": {
+			"margin": true
+		}
+	},
+	"editorScript": "file:./index.js",
+	"style": "file:./style-index.css",
+	"viewScriptModule": "file:./view.js",
+	"render": "file:./render.php"
+}

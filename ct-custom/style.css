@@ -1,0 +1,20 @@
+/*!
+Theme Name: CT Custom
+Theme URI: https://coalitiontechnologies.com/
+Author: Coalition Technologies
+Author URI: https://coalitiontechnologies.com/
+Description: Coalition skill-test theme: pixel-perfect PSD conversion with a 3-level menu, Theme Settings page, full Customizer design tokens and Interactivity API blocks (Reach Us, Social Links).
+Version: 1.0.0
+Requires at least: 6.6
+Tested up to: 7.1
+Requires PHP: 8.2
+License: GNU General Public License v2 or later
+License URI: LICENSE
+Text Domain: ct-custom
+Tags: custom-menu, featured-images, threaded-comments, translation-ready, block-patterns, editor-style
+
+CT Custom is based on Underscores https://underscores.me/, (C) 2012-2017 Automattic, Inc.
+
+Styles are compiled from src/styles into build/front.css (npm run build);
+this file only carries the theme header.
+*/

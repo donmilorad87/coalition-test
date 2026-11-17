@@ -1,0 +1,18 @@
+# Secrets (copy .env.example to .env)
+.env
+
+# Dependencies
+node_modules/
+ct-custom/node_modules/
+ct-custom/vendor/
+
+# Test results / reports
+test-results/
+playwright-report/
+blob-report/
+playwright/.cache/
+ct-custom/tests/e2e/.results/
+.phpunit.cache/
+.phpunit.result.cache
+coverage/
+*.log

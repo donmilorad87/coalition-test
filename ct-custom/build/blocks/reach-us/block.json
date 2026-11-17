@@ -1,0 +1,54 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "ct-custom/reach-us",
+  "title": "Reach Us",
+  "category": "ct-custom",
+  "icon": "location-alt",
+  "description": "Company name, address, phone and fax. Empty fields use Appearance → Theme Settings.",
+  "keywords": [
+    "contact",
+    "address",
+    "phone",
+    "fax"
+  ],
+  "textdomain": "ct-custom",
+  "attributes": {
+    "company": {
+      "type": "string",
+      "default": ""
+    },
+    "address": {
+      "type": "string",
+      "default": ""
+    },
+    "phone": {
+      "type": "string",
+      "default": ""
+    },
+    "fax": {
+      "type": "string",
+      "default": ""
+    },
+    "showCopy": {
+      "type": "boolean",
+      "default": true
+    }
+  },
+  "supports": {
+    "html": false,
+    "interactivity": true,
+    "spacing": {
+      "margin": true,
+      "padding": true
+    },
+    "color": {
+      "text": true,
+      "background": true
+    }
+  },
+  "editorScript": "file:./index.js",
+  "style": "file:./style-index.css",
+  "viewScriptModule": "file:./view.js",
+  "render": "file:./render.php"
+}
